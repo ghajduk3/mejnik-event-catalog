@@ -1,0 +1,23 @@
+sudo: required
+os: osx
+services:
+  - docker
+
+language: java
+dist: trusty
+
+jdk:
+  - oraclejdk9
+
+cache:
+  directories:
+    - $HOME/.m2
+
+env:
+  - DOCKER_IMAGE=ghajduk3/mejnik-event-catalog:latest
+
+script:
+  - mvn clean package -U
+
+after_success:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
